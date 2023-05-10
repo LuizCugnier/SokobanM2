@@ -1,5 +1,21 @@
 using namespace std;
-void loop_principal(Menu menu, Input input, COORD coord, Mapa mapa, Jogador* jogador, Jogo jogo, int (&mj)[13][13]){
+struct Jogo{
+
+    void novo_jogo(COORD coord, Mapa mapa, Input input, Jogador* jogador, Menu &menu, string arquivo_jogo){
+        system("cls");
+        menu.termina_jogo = true;
+
+        while(menu.termina_jogo){
+            //Posiciona no inicio do console
+            SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+            mapa.carrega_mapa(arquivo_jogo);
+            mapa.imprime_mapa(jogador);
+            mapa.movimentos(menu, jogador, input);
+        }
+        
+    };
+
+    void loop_principal(Menu &menu, Input input, COORD coord, Mapa mapa, Jogador* jogador, Jogo jogo, string arquivo_jogo){
     while (menu.principal){
         
         if (_kbhit()){
@@ -13,17 +29,7 @@ void loop_principal(Menu menu, Input input, COORD coord, Mapa mapa, Jogador* jog
                 break;
             case '1':
                 //cria um novo jogo
-                //jogo.novo_jogo(mapa, input, jogador, menu, mj);
-                system("cls");
-                menu.termina_jogo = true;
-
-                while(menu.termina_jogo){
-                    //Posiciona no inicio do console
-                    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-
-                    mapa.imprime_mapa(jogador, mj);
-                    input.input(menu, jogador, mj);
-                }
+                novo_jogo(coord, mapa, input, jogador, menu, arquivo_jogo);
                 break;
             case '2':
                 //continua um jogo
@@ -42,4 +48,8 @@ void loop_principal(Menu menu, Input input, COORD coord, Mapa mapa, Jogador* jog
         }
     }
 }
+
+};
+
+
 
