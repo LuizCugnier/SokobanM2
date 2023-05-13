@@ -28,8 +28,8 @@ int main(){
     //x = 5, y = 5;
 
     Menu menu;
-    menu.principal = true;
-    menu.termina_jogo = true;
+    //menu.principal = true;
+    //menu.termina_jogo = true;
 
     Input input;
     input.tecla = 0;
@@ -38,12 +38,15 @@ int main(){
     Jogador* Pjogador = &jogador;
 
     Mapa mapa;
-    string arquivo_mapa = "F:/Programacao/univali/SokobanM2/mapatxt.txt";
+
+    string arquivo_mapa = "C:/Users/gutoc/OneDrive/Imagens/Documentos/UNIVALI/algoeprog2/sokobanM2/SokobanV2.3/mapatxt.txt";
 
     Jogo jogo;
 
     menu.imprime_menu();
-    jogo.loop_principal(menu, input, coord, mapa, Pjogador, jogo, arquivo_mapa);
+    jogo.loop_principal(menu, input, coord, mapa, Pjogador, arquivo_mapa);
+    //mapa.deleta_mapa();
+    
     
     return 0;
 }
