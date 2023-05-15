@@ -34,7 +34,7 @@ int main(){
     Input input;
     input.tecla = 0;
     
-    Jogador jogador = {5,5};
+    Jogador jogador;
     Jogador* Pjogador = &jogador;
 
     Mapa mapa;
@@ -45,7 +45,7 @@ int main(){
 
     menu.imprime_menu();
     jogo.loop_principal(menu, input, coord, mapa, Pjogador, arquivo_mapa);
-    //mapa.deleta_mapa();
+    mapa.deleta_mapa();
     
     
     return 0;

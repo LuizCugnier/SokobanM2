@@ -27,7 +27,7 @@ struct Input{
     char opcao_menu;
     
 
-    void movimentos(Jogador* jogador, Menu &menu, int (&mj)[13][13]){
+    void movimentos(Jogador* jogador, Menu &menu, int** mj){
         if (_kbhit()){
             tecla = _getch();
             switch (tecla)
@@ -37,11 +37,21 @@ struct Input{
 
                 if (jogador->x > 0 && mj[jogador->x - 1][jogador->y] == 0){//Se tem espaço livre o boneco anda
                     jogador->x--;
-                } else if (mj[jogador->x - 1][jogador->y] == 2 && mj[jogador->x - 2][jogador->y] != 2 && mj[jogador->x - 2][jogador->y] != 1 ){//se tem uma caixa em cima, e todos os criterios são atendido, ele anda
-                    mj[jogador->x - 2][jogador->y] = 2;
-                    mj[jogador->x - 1][jogador->y] = 0;
-                    jogador->x--;
+                } else if (mj[jogador->x - 1][jogador->y] == 2){//se tem uma caixa em cima
+                    if (mj[jogador->x - 2][jogador->y] == 0){
+                        mj[jogador->x - 2][jogador->y] = 2;
+                        mj[jogador->x - 1][jogador->y] = 0;
+                        jogador->x--;
+                    } else if (mj[jogador->x - 2][jogador->y] == 3){
+                        mj[jogador->x - 2][jogador->y] = 4;
+                        mj[jogador->x - 1][jogador->y] = 0;
+                        jogador->x--;
+                    }
                 } else if (mj[jogador->x - 1][jogador->y] == 3){//Se tem o ponto final em cima
+                    jogador->x--;   
+                } else if (mj[jogador->x - 1][jogador->y] == 4){//Se tem uma caixa no ponto final
+                    mj[jogador->x - 2][jogador->y] = 2;
+                    mj[jogador->x - 1][jogador->y] = 3;
                     jogador->x--;
                 }
                 break;
@@ -102,18 +112,35 @@ struct Input{
 
 struct Mapa{
     int mx, my;
-    int mj[13][13];
+    int **mj;
 
-    void carrega_mapa(string arquivo_mapa){
+    void cria_mapa(){
+        mj = new int*[mx];
+
+        for (int i=0; i < mx; i++){
+            mj[i] = new int[my];
+        }
+    }
+
+    void deleta_mapa(){
+        for(int i = 0; i < mx; i++){
+            delete mj[i];
+        }
+        delete mj;
+    }
+
+    void carrega_mapa(string arquivo_mapa, Jogador* jogador){
         
         ifstream arquivo;
         arquivo.open(arquivo_mapa);
 
+
         if (arquivo.is_open()){
             arquivo >> mx >> my;
-            //cout << mx << my;
-            //cria_mapa();
+            arquivo >> jogador->x >> jogador->y;
 
+            cria_mapa();
+            
             for (int i = 0; i < mx; i++){
                 for (int j = 0;j < my; j++){
                     char c;
@@ -128,7 +155,7 @@ struct Mapa{
         }
     }
 
-    void imprime_mapa(Jogador* jogador, int (&mj)[13][13]){
+    void imprime_mapa(Jogador* jogador, int** mj){
 
         //Imprime o jogo: mapa e personagem.
         for (int i = 0; i < mx; i++) {

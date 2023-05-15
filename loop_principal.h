@@ -16,7 +16,7 @@ struct Jogo{
         menu.termina_jogo = true;
         jogo_ativo = true;
         jogador->cont_passos = 0;
-        mapa.carrega_mapa(arquivo_jogo);
+        mapa.carrega_mapa(arquivo_jogo, jogador);
         
         loop_jogo(coord, mapa, input, jogador, menu);
         
