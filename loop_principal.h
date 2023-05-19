@@ -1,6 +1,32 @@
 using namespace std;
 struct Jogo{
     bool jogo_ativo = false;
+    
+    void verifica_jogo(Menu &menu, Mapa mapa){
+        for (int i = 0; i < mapa.mx; i++){
+            for (int j = 0; j < mapa.my; j++){
+                if (mapa.mj[i][j] == 4){
+                    mapa.num_caixas++;
+                }
+            }
+        }
+
+        if (mapa.num_caixas == mapa.total_caixas){
+            menu.termina_jogo = false;
+            system("cls");
+            
+            cout << R"(
+         ___  _   ___    _   ___ ___ _  _ ___  __   _____   ___ ___    ___   _   _  _ _  _  ___  _   _   _   _   _ 
+        | _ \/_\ | _ \  /_\ | _ ) __| \| / __| \ \ / / _ \ / __| __|  / __| /_\ | \| | || |/ _ \| | | | | | | | | |
+        |  _/ _ \|   / / _ \| _ \ _|| .` \__ \  \ V / (_) | (__| _|  | (_ |/ _ \| .` | __ | (_) | |_| | |_| |_| |_|
+        |_|/_/ \_\_|_\/_/ \_\___/___|_|\_|___/   \_/ \___/ \___|___|  \___/_/ \_\_|\_|_||_|\___/ \___/  (_) (_) (_)
+                                                                                                            
+            )" << endl;
+            
+            Sleep(3000);
+            termina_jogo(menu);
+        }
+    }
 
     void loop_jogo(COORD coord, Mapa &mapa, Input input, Jogador* jogador, Menu &menu, Dir dir){
         while(menu.termina_jogo){
@@ -8,6 +34,7 @@ struct Jogo{
             SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
             mapa.imprime_mapa(jogador, mapa.mj);
             input.movimentos(jogador, menu, mapa.mj, dir);
+            verifica_jogo(menu, mapa);
         }
     }
 
@@ -44,9 +71,14 @@ struct Jogo{
         cout << "=======================\n";
         cout << "    REGRAS DO JOGO     \n";
         cout << "=======================\n";
-
         cout << "\n->Objetivo do jogo eh posicionar as caixas no ponto final no menor numero de movimentos.\n";
-        cout << "\nAperte '0' para voltar ao menu.";
+        
+        cout << "\n\nDesenvolvedor: Luiz Augusto\n";
+        cout << "Data: maio/2023\n";
+        cout << "Professor: Thiago Felski\n";
+        cout << "Disciplina: Algoritmos e Programação II\n";
+
+        cout << "\nAperte '0' para voltar ao menu.\n";
     }
 
     void termina_jogo(Menu &menu){
@@ -64,9 +96,10 @@ struct Jogo{
                                                                                                                        
                                                                                                                        
         )" << endl;
-        Sleep(1500);
+        Sleep(2000);
         system("cls");
     };
+
 
     void loop_principal(Menu &menu, Input input, COORD coord, Mapa &mapa, Jogador* jogador, string arquivo_jogo, Dir dir){
         while (menu.principal){

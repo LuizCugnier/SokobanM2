@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <conio.h>
 #include <fstream>
+#include <random>
 #include "config.h"
 #include "loop_principal.h"
 

@@ -6,7 +6,7 @@ struct Menu{
 
     void imprime_menu(){
         system("cls");
-        cout << "===============================================================================================================\n";
+        cout << "=======================================================================================================================\n";
         cout << R"(
          ___             __   ___         _                  ___      _       _               
         | _ ) ___ _ __   \ \ / (_)_ _  __| |___   __ _ ___  / __| ___| |_____| |__  __ _ _ _  
@@ -14,7 +14,7 @@ struct Menu{
         |___/\___|_|_|_|   \_/ |_|_||_\__,_\___/ \__,_\___/ |___/\___/_\_\___/_.__/\__,_|_||_|
                                                                                             
         )" << endl;
-        cout << "===============================================================================================================\n";
+        cout << "=======================================================================================================================\n";    
         cout << "[1] Novo Jogo\n";
         cout << "[2] Continuar\n";
         cout << "[3] Sobre\n";
@@ -211,6 +211,9 @@ struct Mapa{
     int mx, my;
     int **mj;
     int opcao_mapa;
+    int num_caixas = 0;
+    int total_caixas = 0;
+
 
     void cria_mapa(){
         mj = new int*[mx];
@@ -231,11 +234,19 @@ struct Mapa{
         cout << "=======================\n";
         cout << "    Escolha um mapa    \n";
         cout << "=======================\n";
-        cout << "[1]\n";
-        cout << "[2]\n";
-        cout << "[3]\n";
+        cout << "[1] MAPA 1\n";
+        cout << "[2] MAPA 2\n";
+        cout << "[3] MAPA 3\n";
+        cout << "[4] MAPA ALEATORIO\n";
         cout << "\n->";
         cin >> opcao_mapa;
+
+        srand(time(0));
+        int random_num = std::rand() % 3 + 1;
+
+        if (opcao_mapa == 4){
+            opcao_mapa = random_num;
+        }
 
         switch (opcao_mapa)
         {
@@ -257,7 +268,7 @@ struct Mapa{
         
         ifstream arquivo;
         arquivo.open(arquivo_mapa);
-
+        total_caixas = 0;
 
         if (arquivo.is_open()){
             arquivo >> mx >> my;
@@ -270,6 +281,9 @@ struct Mapa{
                     char c;
                     arquivo >> c;
                     mj[i][j] = (int)c - 48;
+                    if (mj[i][j] == 2 || mj[i][j] == 4){
+                        total_caixas++;
+                    }
 
                 }
             }
@@ -305,5 +319,6 @@ struct Mapa{
         }
         cout << "\nCONTADOR DE PASSOS: " << jogador->cont_passos;
         cout << "\n\nAperte '0' para voltar";
+        cout << endl << total_caixas;
     }
 };
