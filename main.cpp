@@ -39,12 +39,14 @@ int main(){
 
     Mapa mapa;
 
-    string arquivo_mapa = "C:/Users/gutoc/OneDrive/Imagens/Documentos/UNIVALI/algoeprog2/sokobanM2/SokobanV2.3/mapatxt.txt";
+    string arquivo_mapa = "C:/Users/gutoc/OneDrive/Imagens/Documentos/UNIVALI/algoeprog2/sokobanM2/SokobanV2.3/mapa2.txt";
 
     Jogo jogo;
 
+    Dir dir;
+
     menu.imprime_menu();
-    jogo.loop_principal(menu, input, coord, mapa, Pjogador, arquivo_mapa);
+    jogo.loop_principal(menu, input, coord, mapa, Pjogador, arquivo_mapa, dir);
     mapa.deleta_mapa();
     
     

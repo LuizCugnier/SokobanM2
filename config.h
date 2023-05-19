@@ -6,9 +6,15 @@ struct Menu{
 
     void imprime_menu(){
         system("cls");
-        cout << "=======================\n";
-        cout << "Bem Vindo ao Sokoban\n";
-        cout << "=======================\n";
+        cout << "===============================================================================================================\n";
+        cout << R"(
+         ___             __   ___         _                  ___      _       _               
+        | _ ) ___ _ __   \ \ / (_)_ _  __| |___   __ _ ___  / __| ___| |_____| |__  __ _ _ _  
+        | _ \/ -_) '  \   \ V /| | ' \/ _` / _ \ / _` / _ \ \__ \/ _ \ / / _ \ '_ \/ _` | ' \ 
+        |___/\___|_|_|_|   \_/ |_|_||_\__,_\___/ \__,_\___/ |___/\___/_\_\___/_.__/\__,_|_||_|
+                                                                                            
+        )" << endl;
+        cout << "===============================================================================================================\n";
         cout << "[1] Novo Jogo\n";
         cout << "[2] Continuar\n";
         cout << "[3] Sobre\n";
@@ -18,81 +24,172 @@ struct Menu{
 };
 
 struct Jogador{
-        int x, y;
-        int cont_passos = 0;
-    };
+    int x, y;
+    int cont_passos = 0;
+};
+
+struct Dir {
+
+    void cima(Jogador* jogador, Menu &menu, int** mj){
+
+        if (jogador->x > 0 && mj[jogador->x - 1][jogador->y] == 0){//Se tem espaço livre o boneco anda
+            jogador->cont_passos++;
+            jogador->x--;
+        } else if (mj[jogador->x - 1][jogador->y] == 2){//se tem uma caixa em cima
+            if (mj[jogador->x - 2][jogador->y] == 0){
+                mj[jogador->x - 2][jogador->y] = 2;
+                mj[jogador->x - 1][jogador->y] = 0;
+                jogador->cont_passos++;
+                jogador->x--;
+            } else if (mj[jogador->x - 2][jogador->y] == 3){    
+                mj[jogador->x - 2][jogador->y] = 4;
+                mj[jogador->x - 1][jogador->y] = 0;
+                jogador->cont_passos++;
+                jogador->x--;
+            }
+        } else if (mj[jogador->x - 1][jogador->y] == 3){//Se tem o ponto final em cima
+            jogador->cont_passos++;
+            jogador->x--;   
+        } else if (mj[jogador->x - 1][jogador->y] == 4){//Se tem uma caixa no ponto final
+            if(mj[jogador->x - 2][jogador->y] == 0){
+                mj[jogador->x - 2][jogador->y] = 2;
+                mj[jogador->x - 1][jogador->y] = 3;
+                jogador->cont_passos++;
+                jogador->x--;
+            } else if (mj[jogador->x - 2][jogador->y] == 3){
+                mj[jogador->x - 2][jogador->y] = 4;
+                mj[jogador->x - 1][jogador->y] = 3;
+            }
+        }
+    }
+
+    void baixo(Jogador* jogador, Menu &menu, int** mj){
+
+        if (jogador->x > 0 && mj[jogador->x + 1][jogador->y] == 0){
+            jogador->cont_passos++;
+            jogador->x++;
+        } else if (mj[jogador->x + 1][jogador->y] == 2){
+            if (mj[jogador->x + 2][jogador->y] == 0){
+                mj[jogador->x + 2][jogador->y] = 2;
+                mj[jogador->x + 1][jogador->y] = 0;
+                jogador->cont_passos++;
+                jogador->x++;
+            } else if (mj[jogador->x + 2][jogador->y] == 3){    
+                mj[jogador->x + 2][jogador->y] = 4;
+                mj[jogador->x + 1][jogador->y] = 0;
+                jogador->cont_passos++;
+                jogador->x++;
+            }
+        } else if (mj[jogador->x + 1][jogador->y] == 3){
+            jogador->cont_passos++;
+            jogador->x++;
+        } else if (mj[jogador->x + 1][jogador->y] == 4){//Se tem uma caixa no ponto final
+            if (mj[jogador->x + 2][jogador->y] == 0){
+                mj[jogador->x + 2][jogador->y] = 2;
+                mj[jogador->x + 1][jogador->y] = 3;
+                jogador->cont_passos++;
+                jogador->x++;
+            }else if (mj[jogador->x + 2][jogador->y] == 3){
+                mj[jogador->x + 2][jogador->y] = 4;
+                mj[jogador->x + 1][jogador->y] = 3;
+                jogador->cont_passos++;
+                jogador->x++;
+            }
+        }
+    }
+
+    void esquerda(Jogador* jogador, Menu &menu, int** mj){
+
+        if (jogador->y > 0 && mj[jogador->x][jogador->y - 1] == 0){
+            jogador->cont_passos++;
+            jogador->y--;
+        } else if (mj[jogador->x][jogador->y - 1] == 2){
+            if (mj[jogador->x][jogador->y - 2] == 0){
+                mj[jogador->x][jogador->y - 2] = 2;
+                mj[jogador->x][jogador->y - 1] = 0;
+                jogador->cont_passos++;
+                jogador->y--;
+            } else if (mj[jogador->x][jogador->y - 2] == 3){
+                mj[jogador->x][jogador->y - 2] = 4;
+                mj[jogador->x][jogador->y - 1] = 0;
+                jogador->cont_passos++;
+                jogador->y--;
+            }
+        } else if (mj[jogador->x][jogador->y - 1] == 3){
+            jogador->cont_passos++;
+            jogador->y--;
+        } else if (mj[jogador->x][jogador->y - 1] == 4){
+            if (mj[jogador->x][jogador->y - 2] == 0){
+                mj[jogador->x][jogador->y - 2] = 2;
+                mj[jogador->x][jogador->y - 1] = 3;
+                jogador->cont_passos++;
+                jogador->y--;
+            } else if(mj[jogador->x][jogador->y - 2] == 3){
+                mj[jogador->x][jogador->y - 2] = 4;
+                mj[jogador->x][jogador->y - 1] = 3;
+                jogador->cont_passos++;
+                jogador->y--;
+            }
+        }
+    }
+
+    void direita(Jogador* jogador, Menu &menu, int** mj){
+
+        if (jogador->y > 0 && mj[jogador->x][jogador->y + 1] == 0){
+            jogador->cont_passos++;
+            jogador->y++;
+        } else if (mj[jogador->x][jogador->y + 1] == 2){
+            if (mj[jogador->x][jogador->y + 2] == 0){
+                mj[jogador->x][jogador->y + 2] = 2;
+                mj[jogador->x][jogador->y + 1] = 0;
+                jogador->cont_passos++;
+                jogador->y++;
+            } else if (mj[jogador->x][jogador->y + 2] == 3){
+                mj[jogador->x][jogador->y + 2] = 4;
+                mj[jogador->x][jogador->y + 1] = 0;
+                jogador->cont_passos++;
+                jogador->y++;
+            }
+        } else if (mj[jogador->x][jogador->y + 1] == 3){
+            jogador->cont_passos++;
+            jogador->y++;
+        } else if (mj[jogador->x][jogador->y + 1] == 4){
+            if (mj[jogador->x][jogador->y + 2] == 0){
+                mj[jogador->x][jogador->y + 2] = 2;
+                mj[jogador->x][jogador->y + 1] = 3;
+                jogador->cont_passos++;
+                jogador->y++;;
+            }else if(mj[jogador->x][jogador->y + 2] == 3){
+                mj[jogador->x][jogador->y + 2] = 4;
+                mj[jogador->x][jogador->y + 1] = 3;
+                jogador->cont_passos++;
+                jogador->y++;
+            }
+        }
+    }
+};
 
 struct Input{
     char tecla;
     char opcao_menu;
     
 
-    void movimentos(Jogador* jogador, Menu &menu, int** mj){
+    void movimentos(Jogador* jogador, Menu &menu, int** mj, Dir dir){
         if (_kbhit()){
             tecla = _getch();
             switch (tecla)
             {
             case 72: case 'w': //cima
-                jogador->cont_passos++;
-
-                if (jogador->x > 0 && mj[jogador->x - 1][jogador->y] == 0){//Se tem espaço livre o boneco anda
-                    jogador->x--;
-                } else if (mj[jogador->x - 1][jogador->y] == 2){//se tem uma caixa em cima
-                    if (mj[jogador->x - 2][jogador->y] == 0){
-                        mj[jogador->x - 2][jogador->y] = 2;
-                        mj[jogador->x - 1][jogador->y] = 0;
-                        jogador->x--;
-                    } else if (mj[jogador->x - 2][jogador->y] == 3){
-                        mj[jogador->x - 2][jogador->y] = 4;
-                        mj[jogador->x - 1][jogador->y] = 0;
-                        jogador->x--;
-                    }
-                } else if (mj[jogador->x - 1][jogador->y] == 3){//Se tem o ponto final em cima
-                    jogador->x--;   
-                } else if (mj[jogador->x - 1][jogador->y] == 4){//Se tem uma caixa no ponto final
-                    mj[jogador->x - 2][jogador->y] = 2;
-                    mj[jogador->x - 1][jogador->y] = 3;
-                    jogador->x--;
-                }
+                dir.cima(jogador, menu, mj);
                 break;
             case 80: case 's': //baixo
-                jogador->cont_passos++;
-
-                if (jogador->x > 0 && mj[jogador->x + 1][jogador->y] == 0){
-                    jogador->x++;
-                } else if (mj[jogador->x + 1][jogador->y] == 2 && mj[jogador->x + 2][jogador->y] != 2 && mj[jogador->x + 2][jogador->y] != 1){
-                    mj[jogador->x + 2][jogador->y] = 2;
-                    mj[jogador->x + 1][jogador->y] = 0;
-                    jogador->x++;
-                } else if (mj[jogador->x + 1][jogador->y] == 3){
-                    jogador->x++;
-                }
+                dir.baixo(jogador, menu, mj);
                 break;
             case 75: case 'a': //esquerda
-                jogador->cont_passos++;
-
-                if (jogador->y > 0 && mj[jogador->x][jogador->y - 1] == 0){
-                    jogador->y--;
-                } else if (mj[jogador->x][jogador->y - 1] == 2 && mj[jogador->x][jogador->y - 2] != 2 && mj[jogador->x][jogador->y - 2] != 1){
-                    mj[jogador->x][jogador->y - 2] = 2;
-                    mj[jogador->x][jogador->y - 1] = 0;
-                    jogador->y--;
-                } else if (mj[jogador->x][jogador->y - 1] == 3){
-                    jogador->y--;
-                }
+                dir.esquerda(jogador, menu, mj);
                 break;
             case 77: case 'd': //direita
-                jogador->cont_passos++;
-
-                if (jogador->y > 0 && mj[jogador->x][jogador->y + 1] == 0){
-                    jogador->y++;
-                } else if (mj[jogador->x][jogador->y + 1] == 2 && mj[jogador->x][jogador->y + 2] != 2 && mj[jogador->x][jogador->y + 2] != 1){
-                    mj[jogador->x][jogador->y + 2] = 2;
-                    mj[jogador->x][jogador->y + 1] = 0;
-                    jogador->y++;
-                } else if (mj[jogador->x][jogador->y + 1] == 3){
-                    jogador->y++;
-                }
+                dir.direita(jogador, menu, mj);
                 break;
             case 'r':
                 //resetar o mapa
@@ -146,6 +243,7 @@ struct Mapa{
                     char c;
                     arquivo >> c;
                     mj[i][j] = (int)c - 48;
+
                 }
             }
             arquivo.close();
