@@ -39,7 +39,7 @@ int main(){
 
     Mapa mapa;
 
-    string arquivo_mapa = "C:/Users/gutoc/OneDrive/Imagens/Documentos/UNIVALI/algoeprog2/sokobanM2/SokobanV2.3/mapa2.txt";
+    string arquivo_mapa = "C:/Users/gutoc/OneDrive/Imagens/Documentos/UNIVALI/algoeprog2/sokobanM2/SokobanV2.3/mapa3.txt";
 
     Jogo jogo;
 

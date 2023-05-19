@@ -210,6 +210,7 @@ struct Input{
 struct Mapa{
     int mx, my;
     int **mj;
+    int opcao_mapa;
 
     void cria_mapa(){
         mj = new int*[mx];
@@ -224,6 +225,32 @@ struct Mapa{
             delete mj[i];
         }
         delete mj;
+    }
+
+    void escolhe_mapa(string &arquivo_mapa){
+        cout << "=======================\n";
+        cout << "    Escolha um mapa    \n";
+        cout << "=======================\n";
+        cout << "[1]\n";
+        cout << "[2]\n";
+        cout << "[3]\n";
+        cout << "\n->";
+        cin >> opcao_mapa;
+
+        switch (opcao_mapa)
+        {
+        case 1:
+            arquivo_mapa = "C:/Users/gutoc/OneDrive/Imagens/Documentos/UNIVALI/algoeprog2/sokobanM2/SokobanV2.3/mapa1.txt";
+            break;
+        case 2:
+            arquivo_mapa = "C:/Users/gutoc/OneDrive/Imagens/Documentos/UNIVALI/algoeprog2/sokobanM2/SokobanV2.3/mapa2.txt";
+            break;
+        case 3:
+            arquivo_mapa = "C:/Users/gutoc/OneDrive/Imagens/Documentos/UNIVALI/algoeprog2/sokobanM2/SokobanV2.3/mapa3.txt";
+            break;
+        default:
+            break;
+        }
     }
 
     void carrega_mapa(string arquivo_mapa, Jogador* jogador){
